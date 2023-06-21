@@ -1,8 +1,22 @@
 server:
-  port: 0 #rendom port #mvn spring-boot:run
+  port: 8088 #rendom port #mvn spring-boot:run
 spring:
   application:
     name: user-service
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true #외부 허용
+      path: /h2-console
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+  jpa:
+    hibernate:
+      ddl-auto: create-drop # 시작할 때 새로 생성 하고 세션을 마칠 때 스키마를 소멸 시킵니다.
+    show-sql: true #jsp 로그 출력되도록
+
 eureka:
   instance:
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
