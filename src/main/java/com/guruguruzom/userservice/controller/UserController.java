@@ -4,10 +4,13 @@ import com.guruguruzom.userservice.dto.UserDto;
 import com.guruguruzom.userservice.service.UserService;
 import com.guruguruzom.userservice.vo.Greeting;
 import com.guruguruzom.userservice.vo.RequestUser;
+import com.guruguruzom.userservice.vo.ResponseUser;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,12 +38,18 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public String createUser(@RequestBody RequestUser user){
+    public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user){
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
         UserDto userDto = mapper.map(user, UserDto.class);
         userService.createUser(userDto);
-        return "Create Completed";
+
+        ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);
+
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
     }
+
+
 }
