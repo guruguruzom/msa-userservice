@@ -1,5 +1,5 @@
 server:
-  port: 8088 #rendom port #mvn spring-boot:run
+  port: 0 #rendom port #mvn spring-boot:run
 spring:
   application:
     name: user-service
