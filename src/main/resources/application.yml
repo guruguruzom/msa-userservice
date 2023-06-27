@@ -1,8 +1,11 @@
 server:
   port: 0 #rendom port #mvn spring-boot:run
+  servlet:
+    context-path: /user-service
 spring:
   application:
     name: user-service
+
   h2:
     console:
       enabled: true
