@@ -29,7 +29,7 @@ public class UserController {
 
     @GetMapping("/health-check")
     public String status(){
-        return String.format( "server check in user user service on Port %s",
+        return String.format( "server check in user service on Port %s",
             env.getProperty("local.server.port"));
     }
 
