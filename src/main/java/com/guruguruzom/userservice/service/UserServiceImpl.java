@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto userDto) {
         userDto.setUserId(UUID.randomUUID().toString());
-
+        System.out.println(userDto.getUserId());
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT); //자료형이 딱맞아 떨어져야 작동하도록
         UserEntity userEntity = mapper.map(userDto, UserEntity.class);
