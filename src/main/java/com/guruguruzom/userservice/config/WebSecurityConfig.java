@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/error/**").permitAll()
                 .antMatchers("/**")
-                .access("hasIpAddress('127.0.0.1')")
+                .access("hasIpAddress('" + IP_ADDRESS + "')")
                 .anyRequest().authenticated()
                         .and()
                                 .addFilter(getAuthentionFilter());
@@ -45,7 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private AuthenticationFilter getAuthentionFilter() throws Exception{
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
+        AuthenticationFilter authenticationFilter =
+                new AuthenticationFilter(authenticationManager(),userService,env);
         authenticationFilter.setAuthenticationManager(authenticationManager());
 
         return authenticationFilter;

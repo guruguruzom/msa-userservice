@@ -32,8 +32,9 @@ eureka:
 
 greeting:
   message: Welcome user e-commerce
-
-
+logging:
+  level:
+    com.guruguruzom.userservice: DEBUG
 
 
 
