@@ -36,6 +36,8 @@ logging:
   level:
     com.guruguruzom.userservice: DEBUG
 
-
+token:
+  expiration_time: 86400000 #mili-second단위 : 하루동안 유지
+  secret: user_token
 
 
