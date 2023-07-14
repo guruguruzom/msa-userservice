@@ -36,6 +36,13 @@ logging:
   level:
     com.guruguruzom.userservice: DEBUG
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans #actuator 사용할 목록
+
 #token:
 #  expiration_time: 86400000 #mili-second단위 : 하루동안 유지
+
 #  secret: user_token

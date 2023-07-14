@@ -31,6 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         //http.authorizeHttpRequests().antMatchers("/user/**").permitAll();
         //모든 요청을 통과시키지 않음
+        http.authorizeRequests()
+                .antMatchers("/actuator/**").permitAll();
 
         http.authorizeRequests()
                 .antMatchers("/error/**").permitAll()
