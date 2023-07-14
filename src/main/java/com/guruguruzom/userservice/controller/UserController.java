@@ -29,8 +29,12 @@ public class UserController {
 
     @GetMapping("/health-check")
     public String status(){
-        return String.format( "server check in user service on Port %s",
-            env.getProperty("local.server.port"));
+        StringBuilder healthMessage = new StringBuilder("server check in user service on Port")
+                .append(", port(local.server.port)=").append(env.getProperty("local.server.port"))
+                .append(", port(server.port)=").append(env.getProperty("server.port"))
+                .append(", token secret=").append(env.getProperty("token.secret"))
+                .append(", token expiration time=").append(env.getProperty("token.expiration_time"));
+        return healthMessage.toString();
     }
 
     @GetMapping("/welcome")
