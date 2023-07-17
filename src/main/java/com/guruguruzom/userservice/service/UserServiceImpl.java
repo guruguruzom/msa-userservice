@@ -5,7 +5,9 @@ import com.guruguruzom.userservice.dto.UserDto;
 import com.guruguruzom.userservice.entity.UserEntity;
 import com.guruguruzom.userservice.repository.UserRepository;
 import com.guruguruzom.userservice.vo.ResponseOrder;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
@@ -87,9 +90,12 @@ public UserDto getUserByUserId(String userId) {
 
     UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
 
-    List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
-
-    userDto.setOrders(orderList);
+    try{
+        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
+        userDto.setOrders(orderList);
+    } catch (FeignException ex){
+        log.error(ex.getMessage());
+    }
 
     return userDto;
 }
