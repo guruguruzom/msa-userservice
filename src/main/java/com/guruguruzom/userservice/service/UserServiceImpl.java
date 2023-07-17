@@ -1,5 +1,6 @@
 package com.guruguruzom.userservice.service;
 
+import com.guruguruzom.userservice.client.OrderServiceClient;
 import com.guruguruzom.userservice.dto.UserDto;
 import com.guruguruzom.userservice.entity.UserEntity;
 import com.guruguruzom.userservice.repository.UserRepository;
@@ -8,11 +9,16 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +31,9 @@ public class UserServiceImpl implements UserService {
     //BCryptPasswordEncoder는 선언 된 적이 없으므로 UserServiceApplication에 시작 시 등록
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final Environment env;
+    private final OrderServiceClient orderServiceClient;
+    //private final RestTemplate restTemplate;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -55,20 +64,36 @@ public class UserServiceImpl implements UserService {
         return returnUserDto;
     }
 
-    @Override
-    public UserDto getUserByUserId(String userId) {
-        UserEntity userEntity = userRepository.findByUserId(userId);
+//    @Override
+//    public UserDto getUserByUserId(String userId) {
+//        UserEntity userEntity = userRepository.findByUserId(userId);
+//
+//        if(userEntity == null)
+//            throw  new UsernameNotFoundException("user not found");
+//
+//        UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
+//
+//        List<ResponseOrder> orders = new ArrayList<>();
+//        userDto.setOrders(orders);
+//
+//        return userDto;
+//    }
+@Override
+public UserDto getUserByUserId(String userId) {
+    UserEntity userEntity = userRepository.findByUserId(userId);
 
-        if(userEntity == null)
-            throw  new UsernameNotFoundException("user not found");
+    if(userEntity == null)
+        throw  new UsernameNotFoundException("user not found");
 
-        UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
+    UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
 
-        List<ResponseOrder> orders = new ArrayList<>();
-        userDto.setOrders(orders);
+    List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
 
-        return userDto;
-    }
+    userDto.setOrders(orderList);
+
+    return userDto;
+}
+
     @Override
     public Iterable<UserEntity> getUserByAll() {
         return userRepository.findAll();

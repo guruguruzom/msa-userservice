@@ -35,6 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/actuator/**").permitAll();
 
         http.authorizeRequests()
+                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/error/**").permitAll()
                 .antMatchers("/**")
                 .access("hasIpAddress('" + IP_ADDRESS + "')")
