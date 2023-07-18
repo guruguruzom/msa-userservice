@@ -1,5 +1,6 @@
 package com.guruguruzom.userservice;
 
+import com.guruguruzom.userservice.handler.FeignErrorDecoder;
 import feign.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,6 +31,12 @@ public class UserServiceApplication {
     public Logger.Level feignLoggerLevel(){
         return Logger.Level.FULL;
     }
+
+//    @Bean //FeignErrorDecoder component등록으로 필요없음
+//    public FeignErrorDecoder getFeignErrorDecoder(){
+//        return new FeignErrorDecoder();
+//    }
+    
 //    @Bean
 //    @LoadBalanced
 //    public RestTemplate getRestTemplate(){

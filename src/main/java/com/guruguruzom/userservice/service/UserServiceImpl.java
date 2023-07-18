@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final Environment env;
     private final OrderServiceClient orderServiceClient;
+
     //private final RestTemplate restTemplate;
 
     @Override
@@ -90,12 +91,14 @@ public UserDto getUserByUserId(String userId) {
 
     UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
 
-    try{
-        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
-        userDto.setOrders(orderList);
-    } catch (FeignException ex){
-        log.error(ex.getMessage());
-    }
+//    try{
+//        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
+//        userDto.setOrders(orderList);
+//    } catch (FeignException ex){
+//        log.error(ex.getMessage());
+//    }
+    List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
+    userDto.setOrders(orderList);
 
     return userDto;
 }
