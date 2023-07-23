@@ -16,8 +16,14 @@ spring:
       settings:
         web-allow-others: true #외부 허용
       path: /h2-console
+  zipkin:
+    base-user: http://localhost:9411
+    enabled: true
+  sleuth:
+    sampler:
+      probability: 1.0
 
-#  datasource:
+  #  datasource:
 #    url: jdbc:h2:mem:testdb
 #    username: sa
   jpa:
@@ -46,7 +52,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans, busrefresh #actuator 사용할 목록
+        include: refresh, health, beans, busrefresh, info, metrics, prometheus #actuator 사용할 목록
 
 
 #token:

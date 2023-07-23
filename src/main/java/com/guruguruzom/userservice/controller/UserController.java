@@ -6,6 +6,7 @@ import com.guruguruzom.userservice.service.UserService;
 import com.guruguruzom.userservice.vo.Greeting;
 import com.guruguruzom.userservice.vo.RequestUser;
 import com.guruguruzom.userservice.vo.ResponseUser;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -28,6 +29,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/health-check")
+    @Timed(value = "users.status", longTask = true)
     public String status(){
         StringBuilder healthMessage = new StringBuilder("server check in user service on Port")
                 .append(", port(local.server.port)=").append(env.getProperty("local.server.port"))
@@ -38,6 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/welcome")
+    @Timed(value = "users.welcome", longTask = true)
     public String welcome(){
         //env를 통한 방법
         env.getProperty("greeting.message");
