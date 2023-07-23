@@ -16,6 +16,7 @@ spring:
       settings:
         web-allow-others: true #외부 허용
       path: /h2-console
+
 #  datasource:
 #    url: jdbc:h2:mem:testdb
 #    username: sa
